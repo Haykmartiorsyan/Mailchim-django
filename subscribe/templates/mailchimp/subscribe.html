@@ -1,0 +1,88 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <h1 style="text-align: center;">MailChimp Subscribers</h1>
+<div class="container">
+    <div class="row">
+    <h2>Subscribe</h2>
+        <div class="col-lg-5">
+            <form action="{% url 'subscribe_success' %}" method="post">{% csrf_token %}
+                <div class="form-group">
+                  <label class="control-label col-lg-12">Email:</label>
+                  <div class="col-sm-12">
+                    {{ form.email }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-4">First Name:</label>
+                  <div class="col-sm-12">
+                    {{ form.name }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-4">Last Name:</label>
+                  <div class="col-sm-12">
+                    {{ form.last_name }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-12">
+                      <br>
+                    <input type="submit" class="btn btn-success" value="Subscribe">
+                  </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-7">
+            <table class="table">
+              <tr>
+                <th>Email Address</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Status</th>
+              </tr>
+                {% for i in data.members %}
+                    {% if i.status == 'subscribed' %}
+              <tr class="success">
+                <td>{{ i.email_address  }}</td>
+                <td>{{ i.merge_fields.FNAME }}</td>
+                <td>{{ i.merge_fields.LNAME }}</td>
+                <td>{{ i.status }}</td>
+                <td>
+                    <a
+                            href="https://us17.api.mailchimp.com/3.0/lists/94dc1e9648/members/{{ i.id }}?apikey=b6dcda7ca8a0073f0064553ff17a4c8d"
+                            data-method="delete"
+                            class="delete_member"
+                    >X</a>
+                </td>
+              </tr>
+                    {% else %}
+              <tr class="danger">
+                <td>{{ i.email_address  }}</td>
+                <td>{{ i.merge_fields.FNAME }}</td>
+                <td>{{ i.merge_fields.LNAME }}</td>
+                <td>{{ i.status }}</td>
+              </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $(document).ready(function () {
+           $('.delete_member').on('click', function () {
+               $.ajax({
+                   method: 'delete',
+                   success: function(result){
+                       alert('ok');
+                }});
+           })
+        })
+
+    </script>
+
+
+{% endblock %}
