@@ -49,13 +49,13 @@
                 <td>{{ i.merge_fields.FNAME }}</td>
                 <td>{{ i.merge_fields.LNAME }}</td>
                 <td>{{ i.status }}</td>
-                <td>
-                    <a
-                            href="https://us17.api.mailchimp.com/3.0/lists/94dc1e9648/members/{{ i.id }}?apikey=b6dcda7ca8a0073f0064553ff17a4c8d"
-                            data-method="delete"
-                            class="delete_member"
-                    >X</a>
-                </td>
+{#                <td>#}
+{#                    <a#}
+{#                            href="https://us17.api.mailchimp.com/3.0/lists/94dc1e9648/members/{{ i.id }}?apikey=b6dcda7ca8a0073f0064553ff17a4c8d"#}
+{#                            data-method="delete"#}
+{#                            class="delete_member"#}
+{#                    >X</a>#}
+{#                </td>#}
               </tr>
                     {% else %}
               <tr class="danger">
